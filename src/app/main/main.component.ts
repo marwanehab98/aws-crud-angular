@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { environment } from '../../environments/environment';
 import { ItemsService } from '../items.service';
 import { CommonModule } from '@angular/common';
+import isNotNumeric from '../utils/isNotNumeric';
 
 interface Item {
   id: string;
@@ -25,10 +26,11 @@ export class MainComponent implements OnInit {
   priceInputValue = '';
   items: Item[] = [];
   selectedItem: string | null = null;
+  loading = false;
 
   constructor(
     private authService: AuthService,
-    private itemsService: ItemsService,
+    private itemsService: ItemsService
   ) {}
 
   ngOnInit(): void {
@@ -36,10 +38,12 @@ export class MainComponent implements OnInit {
   }
 
   getItems() {
+    this.loading = true;
     this.itemsService
       .getItems()
       .pipe()
       .subscribe((res) => {
+        this.loading = false;
         if (res) {
           this.items = JSON.parse((res as any).body);
         } else console.log('something went wrong');
@@ -55,10 +59,17 @@ export class MainComponent implements OnInit {
   }
 
   handlePutClick() {
+    if (this.isNotNumeric(this.priceInputValue)) return;
+    if (this.priceInputValue.trim() === '' || this.nameInputValue.trim() === '')
+      return;
+    this.loading = true;
     this.itemsService
       .putItems(this.selectedItem, this.nameInputValue, this.priceInputValue)
       .pipe()
       .subscribe((res) => {
+        this.loading = false;
+        this.priceInputValue = '';
+        this.nameInputValue = '';
         this.getItems();
       });
   }
@@ -77,16 +88,23 @@ export class MainComponent implements OnInit {
   }
 
   handleDeleteClick(id: string) {
+    this.loading = true;
     this.itemsService
       .deleteItem(id)
       .pipe()
       .subscribe((res) => {
+        this.loading = false;
         this.getItems();
       });
+  }
+
+  isNotNumeric(value: string): any {
+    return isNotNumeric(value);
   }
 
   logOut() {
     localStorage.clear();
     this.isAuthenticated = false;
+    this.items = []
   }
 }
