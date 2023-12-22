@@ -1,0 +1,60 @@
+<main class="main p-4">
+    <div class="flex justify-between rounded-lg bg-black p-3.5 lg:p-6">
+        <h1 class="text-xl font-medium text-gray-300">Oyoun Masr</h1>
+        <a *ngIf="!isAuthenticated; else loggedOutButton" class="text-xl font-medium text-gray-300" target="_top"
+            [href]="loginUrl">
+            Login
+        </a>
+        <ng-template #loggedOutButton>
+            <button *ngIf="isAuthenticated" class="text-xl font-medium text-gray-300" (click)="logOut()">
+                Logout
+            </button>
+        </ng-template>
+    </div>
+    <div class="flex w-full h-full justify-center">
+        <div *ngIf="isAuthenticated; else loggedOutView" class="flex w-full items-start justify-center lg:h-screen">
+            <div class="container mx-auto p-4">
+                <div class="flex flex-row justify-start gap-4">
+                    <input #nameInput (input)="changeNameInput(nameInput.value)" [value]="nameInputValue"
+                        class="border-blue-gray-200 text-blue-gray-700 placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 disabled:bg-blue-gray-50 focus:border-1 peer h-full w-1/4 rounded-[7px] border bg-transparent px-3 py-2.5 font-sans text-sm font-normal outline outline-0 transition-all placeholder-shown:border focus:border-pink-500 focus:outline-0 disabled:border-0"
+                        placeholder="name">
+                    <input #priceInput (input)="changePriceInput(priceInput.value)" [value]="priceInputValue"
+                        class="border-blue-gray-200 text-blue-gray-700 placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 disabled:bg-blue-gray-50 focus:border-1 peer h-full w-1/4 rounded-[7px] border bg-transparent px-3 py-2.5 font-sans text-sm font-normal outline outline-0 transition-all placeholder-shown:border focus:border-pink-500 focus:outline-0 disabled:border-0"
+                        placeholder="price" />
+                    <button (click)="handlePutClick()"
+                        class="select-none rounded-lg bg-blue-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                        Put Item
+                    </button>
+                </div>
+                <div class="h-5"></div>
+                <div class="grid grid-cols-1 gap-24 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+                    <div *ngFor="let item of items"
+                        class="relative flex w-full flex-col justify-between rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                        <div class="p-6">
+                            <h5
+                                class="text-blue-gray-900 mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal antialiased">
+                                {{item.name}}
+                            </h5>
+                            <p class="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
+                                {{item.price}}
+                            </p>
+                        </div>
+                        <div class="flex flex-row gap-4 p-6 pt-0">
+                            <button (click)="handleDeleteClick(item.id)"
+                                class="select-none rounded-lg bg-pink-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                                Delete
+                            </button>
+                            <button (click)="handleSelectClick(item.id)"
+                                class="select-none rounded-lg bg-pink-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                                {{selectedItem === item.id ? 'Unselect' : 'Select'}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #loggedOutView>
+            <h1 class="text-lg">Please Login</h1>
+        </ng-template>
+    </div>
+</main>
