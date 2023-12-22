@@ -68,8 +68,10 @@ export class MainComponent implements OnInit {
       .pipe()
       .subscribe((res) => {
         this.loading = false;
-        this.priceInputValue = '';
-        this.nameInputValue = '';
+        if (!this.selectedItem) {
+          this.priceInputValue = '';
+          this.nameInputValue = '';
+        }
         this.getItems();
       });
   }
@@ -105,6 +107,6 @@ export class MainComponent implements OnInit {
   logOut() {
     localStorage.clear();
     this.isAuthenticated = false;
-    this.items = []
+    this.items = [];
   }
 }
