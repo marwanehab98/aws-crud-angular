@@ -29,7 +29,6 @@ export class MainComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private itemsService: ItemsService,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
