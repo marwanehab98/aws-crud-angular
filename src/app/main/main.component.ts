@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { environment } from '../../environments/environment';
 import { ItemsService } from '../items.service';
 import { CommonModule } from '@angular/common';
 import isNotNumeric from '../utils/isNotNumeric';
+import { HttpClientModule } from '@angular/common/http';
 
 interface Item {
   id: string;
@@ -15,7 +15,7 @@ interface Item {
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
 })
