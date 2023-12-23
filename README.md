@@ -1,4 +1,4 @@
-# AWS Crud POC
+# AWS CRUD POC
 
 This project is a POC for making a serveless application using:
 * AWS Cognito for authentication.
